@@ -7,7 +7,6 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -15,12 +14,8 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-
-import com.example.listview.ListViewAdapter;
 
 import java.util.ArrayList;
 
@@ -29,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     ListView listView;
     ArrayList<Item> items;
-    com.example.listview.ListViewAdapter listViewAdapter;
+    ListViewAdapter listViewAdapter;
     int vitri = -1;
 
     @Override
@@ -37,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         items = new ArrayList<>();
+        listView = findViewById(R.id.listview);
         Button button = (Button) findViewById(R.id.btclick);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,9 +40,6 @@ public class MainActivity extends AppCompatActivity {
                 btGetContactPressed(view);
             }
         });
-
-        listViewAdapter = new ListViewAdapter(this,R.layout.item_listview,items);
-        listView.setAdapter(listViewAdapter);
     }
 
     public void btGetContactPressed(View view){
@@ -63,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("adasd", "contactName: " + contactName + "contactNumber" + contactNumber);
                 items.add(new Item(contactName,contactNumber));
             }
+            listViewAdapter = new ListViewAdapter(this,R.layout.item_listview,items);
+            listView.setAdapter(listViewAdapter);
         }
     }
 
