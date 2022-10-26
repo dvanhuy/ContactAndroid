@@ -15,14 +15,28 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import com.example.listview.ListViewAdapter;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    ListView listView;
+    ArrayList<Item> items;
+    com.example.listview.ListViewAdapter listViewAdapter;
+    int vitri = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        items = new ArrayList<>();
         Button button = (Button) findViewById(R.id.btclick);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
                 btGetContactPressed(view);
             }
         });
+
+        listViewAdapter = new ListViewAdapter(this,R.layout.item_listview,items);
+        listView.setAdapter(listViewAdapter);
     }
 
     public void btGetContactPressed(View view){
@@ -44,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 @SuppressLint("Range") String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                 @SuppressLint("Range") String contactNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 Log.d("adasd", "contactName: " + contactName + "contactNumber" + contactNumber);
+                items.add(new Item(contactName,contactNumber));
             }
         }
     }
